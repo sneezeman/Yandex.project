@@ -3,6 +3,7 @@
     package="com.example.android.yandexproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,13 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FavouritesAction"
+            android:name=".FavouritesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HistoryAction"
+            android:name=".HistoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".FavouritesActivity"></activity>
     </application>
 
 </manifest>

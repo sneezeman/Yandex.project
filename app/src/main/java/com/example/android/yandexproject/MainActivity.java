@@ -3,10 +3,13 @@ package com.example.android.yandexproject;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     final String[] languageArray = {"English", "Russian", "German", "French", "Spanish"};
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
         final Spinner spinnerFrom = (Spinner) findViewById(R.id.spinner_lang_from);
         final Spinner spinnerTo = (Spinner) findViewById(R.id.spinner_lang_to);
 
+        // Check the Internet connection
+        if (!isOnline()){
+            Toast.makeText(getBaseContext(), "No Internet connection! Please connect to the " +
+                            "Internet and relaunch app!"
+                    , Toast.LENGTH_LONG).show();
+            mSearchButton.setVisibility(View.INVISIBLE);
+        }
+
         // "Translate" button onClickListener. Click leads to virtual keyboard hiding and
         // executes method makeTranslationQuery.
         mSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 makeTranslationQuery();
+                saveTranslationText(getBaseContext() ,mSearchBoxEditText.getText().toString());
             }
         });
 
@@ -154,6 +164,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Check online connection
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     // Fill the HashMap for URL creation
@@ -238,7 +256,24 @@ public class MainActivity extends AppCompatActivity {
         String translationQuery = mSearchBoxEditText.getText().toString();
         URL translationUrl = NetworkUtils.buildUrl(translationQuery, makeLangString());
         new translationQueryTask().execute(translationUrl);
+
     }
+
+    // Store text from mSearchBoxEditText
+    public static void saveTranslationText(Context context, String textFromL) {
+        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("textFromL", textFromL);
+        editor.commit();
+    }
+
+    // Get the source text from mSearchBoxEditText
+    public static String getTranslationText(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
+        return prefs.getString("textFromL", "");
+
+    }
+
 
     public class translationQueryTask extends AsyncTask<URL, Void, String> {
         // Override onPreExecute to set the loading indicator to visible
@@ -303,8 +338,8 @@ public class MainActivity extends AppCompatActivity {
                                  boolean fromFavourites) throws SQLException {
         boolean isUnique = true;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String translationQuery = mSearchBoxEditText.getText().toString();
-
+//        String translationQuery = mSearchBoxEditText.getText().toString();
+        String translationQuery = getTranslationText(this);
         Cursor c = db.query(tableName, null, null, null, null, null, null);
 
         if (c.moveToFirst()) {
@@ -345,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
     // Adds pair of text to table
     private void addItemToTable (String tableName) {
         ContentValues cv = new ContentValues();
-        String firstLang = mSearchBoxEditText.getText().toString();
+        String firstLang = getTranslationText(this);
         String secondLang = mSearchResultsTextView.getText().toString();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         cv.put("wordFrom", firstLang);

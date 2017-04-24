@@ -49,7 +49,7 @@ public class FavouritesActivity extends AppCompatActivity {
             do {
                 allFavourites.append(
                         c.getString(wordFromColIndex) +
-                                "\n" + c.getString(wordToColIndex)+ "\n" + "\n");
+                                "\n" + c.getString(wordToColIndex)+ "\n" + "\n"+ "\n");
             } while (c.moveToPrevious());
         } else allFavourites.setText("Still empty \n");
 
