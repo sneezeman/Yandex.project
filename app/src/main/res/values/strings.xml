@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Yandex.project</string>
+    <string name="translate">Translate!</string>
+    <string name="error_message">Nothing to translate</string>
+    <string name="lang_from">I want to translate from</string>
+    <string name="lang_to">to</string>>
+    <string name="favourites">Go to favourites</string>
+    <string name="history">Go to history</string>
+    <string name="title_activity_display_history">display_history</string>
+    <string name="clear_history">Clear history</string>
+    <string name="clear_favourites">Clear favourites</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="et_hint">Write some text and click Translate!</string>
+</resources>

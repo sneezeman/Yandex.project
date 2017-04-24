@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.example.android.yandexproject.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_from"/>
+
+    <Spinner
+        android:id="@+id/spinner_lang_from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_to"/>
+
+    <Spinner
+        android:id="@+id/spinner_lang_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown" />
+
+    <EditText
+        android:id="@+id/et_search_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/et_hint"
+        android:textSize="18sp"
+        android:maxLines="10"/>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translate" />
+
+    <Button
+        android:id="@+id/history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/history" />
+
+    <Button
+        android:id="@+id/go_to_favourites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/favourites" />
+
+    <Button
+        android:id="@+id/add_to_favourites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_favourites"
+        android:visibility="invisible"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_translation_results_json"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_error_message_display"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/error_message"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_height="42dp"
+            android:layout_width="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+</LinearLayout>
